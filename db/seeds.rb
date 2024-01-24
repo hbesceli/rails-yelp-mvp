@@ -7,3 +7,28 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+require 'faker'
+restaurants = []
+puts 'seeding'
+5.times do
+  restaurant = Restaurant.new(
+    name: Faker::Restaurant.name,
+    address: "#{Faker::Address.street_address}, #{Faker::Address.city}",
+    category: ['chinese', 'italian', 'japanese', 'french', 'belgian'].sample,
+    phone_number: Faker::PhoneNumber.phone_number
+  )
+  restaurant.save!
+  restaurants << restaurant
+end
+
+restaurants.each do |restaurant|
+  review = Review.new(
+    rating: rand(1..5),
+    content: Faker::Quote.mitch_hedberg,
+    restaurant: restaurant
+  )
+  review.save!
+end
+
+puts 'seeding done'
